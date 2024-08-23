@@ -1,7 +1,8 @@
 // Beatriz Carla Bandeira da Silva Pereira - 3°A - 2024.2
 // Implementação da função de conversão de decimal para binário (1A) às 11h47 do dia 23/08/2024
 // Ajuste na funçao decimalParaBin para mostrar na tela os passos para conversão de decimal para binário às 12h09 do dia 23/08/2024
-// Implementaçãp da função de conversão de decimal para octal (1B) às 12h49 d0 dia 23/08/2024
+// Implementação da função de conversão de decimal para octal (1B) às 12h49 d0 dia 23/08/2024
+// Implementação da função de conversão de decimal para hexadecimal (1C) às 16h do dia 23/08/2024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,9 +50,39 @@ void decimalParaOctal (int val, int oct[64]){
     }
 }
 
+void decimalParaHexa(int val, int hex[64]){
+    int i = 0, resto;
+    int temp = val;
+
+    while(val >= 16){
+        resto = val % 16;
+        if(resto < 10){
+            hex[i] = resto + '0';
+
+        } else {
+            hex[i] = resto - 10 + 'A';
+
+        }
+        printf("%d / 16 = %d\n", val, resto);
+        val = val / 16;
+        i++;
+    }
+    if(val < 10){
+        hex[i] = val + '0';
+
+    } else {
+        hex[i] = val - 10 + 'A';
+    }
+
+    printf("%d em hexadecimal: ", temp);
+    for(int bit = i; bit >= 0; bit--){
+        printf("%c", hex[bit]);
+    }
+}
+
 int main (void){
 
-    int valor, arrBin[64], arrOct[64], operacao;
+    int valor, arrBin[64], arrOct[64], arrHex[64], operacao;
 
     printf("Selecione a conversao que deseja realizar:\n1 - Decimal para binario\n2 - Decimal para octal\n3 - Decimal para Hexa\n4 - Decimal para BCD\n");
     scanf("%d", &operacao);
@@ -68,6 +99,13 @@ int main (void){
         scanf("%d", &valor);
 
         decimalParaOctal(valor, &arrOct[64]);
+
+    } else if (operacao == 3){
+        printf("Digite o valor decimal que deseja converter para hexadecimal: ");
+        scanf("%d", &valor);
+
+        decimalParaHexa(valor, &arrHex[64]);
+
     }
     return 0;
 }

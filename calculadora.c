@@ -4,6 +4,7 @@
 // Implementação da função de conversão de decimal para octal (1B) às 12h49 d0 dia 23/08/2024
 // Implementação da função de conversão de decimal para hexadecimal (1C) às 16h do dia 23/08/2024
 // Implementação da função de conversão de decimal para BCD (1D) às 15h06 do dia 27/08/2024
+// Implementação da função de conversão de decimal para binário com sinal (2) às 16h21 do dia 27/08/2024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -92,6 +93,7 @@ void decimalParaBCD(int val, int bcd[64]){
         }
         val = val / 10;
         i += 4;
+
     }
 
     printf("%d em BCD: ", temp);
@@ -99,15 +101,56 @@ void decimalParaBCD(int val, int bcd[64]){
         printf("%d", bcd[bit]);
         if (bit % 4 == 0 && bit != 0) {
             printf(" ");
+
         }
     }
 }
 
+void decimalParaBinarioComSinal(int val, int bin[64]) {
+    int i = 15;
+    int negativo = 0;
+    int temp = val;
+    
+    if (val < 0) {
+        val = -val;
+        negativo = 1;
+    }
+
+    while (i >= 0) {
+        bin[i] = val % 2;
+        val = val / 2;
+        i--;
+    }
+
+    if (negativo) {
+        for (i = 0; i < 16; i++) {
+            bin[i] = bin[i] == 0 ? 1 : 0;
+
+        }
+        for (i = 15; i >= 0; i--) {
+            if (bin[i] == 0) {
+                bin[i] = 1;
+                break;
+
+            } else {
+                bin[i] = 0;
+
+            }
+        }
+    }
+
+    printf("%d em binario com sinal (16 bits): ", temp);
+    for (i = 0; i < 16; i++) {
+        printf("%d", bin[i]);
+    }
+}
+
+
 int main (void){
 
-    int valor, arrBin[64], arrOct[64], arrHex[64], arrBCD[64], operacao;
+    int valor, arrBin[64], arrOct[64], arrHex[64], arrBCD[64], arrBinSinal[64], operacao;
 
-    printf("Selecione a conversao que deseja realizar:\n1 - Decimal para binario\n2 - Decimal para octal\n3 - Decimal para Hexa\n4 - Decimal para BCD\n");
+    printf("Selecione a conversao que deseja realizar:\n1 - Decimal para binario\n2 - Decimal para octal\n3 - Decimal para Hexa\n4 - Decimal para BCD\n5 - Decimal para binario com 16 bits\n");
     scanf("%d", &operacao);
 
     if(operacao == 1){
@@ -133,6 +176,11 @@ int main (void){
         printf("Digite o valor decimal que deseja converter para BCD: ");
         scanf("%d", &valor);
         decimalParaBCD(valor, &arrBCD[64]);
+
+    } else if (operacao == 5){
+        printf("Digite o valor decimal que deseja converter para binario com 16 bits: ");
+        scanf("%d", &valor);
+        decimalParaBinarioComSinal(valor, &arrBinSinal[64]);
     }
 
     return 0;

@@ -3,6 +3,7 @@
 // Ajuste na funçao decimalParaBin para mostrar na tela os passos para conversão de decimal para binário às 12h09 do dia 23/08/2024
 // Implementação da função de conversão de decimal para octal (1B) às 12h49 d0 dia 23/08/2024
 // Implementação da função de conversão de decimal para hexadecimal (1C) às 16h do dia 23/08/2024
+// Implementação da função de conversão de decimal para BCD (1D) às 15h06 do dia 27/08/2024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,9 +81,31 @@ void decimalParaHexa(int val, int hex[64]){
     }
 }
 
+void decimalParaBCD(int val, int bcd[64]){
+    int i = 0;
+    int temp = val;
+    
+    while (val > 0) {
+        int digit = val % 10;
+        for (int j = 0; j < 4; j++) { 
+            bcd[i + j] = (digit >> j) & 1;
+        }
+        val = val / 10;
+        i += 4;
+    }
+
+    printf("%d em BCD: ", temp);
+    for (int bit = i - 1; bit >= 0; bit--) {
+        printf("%d", bcd[bit]);
+        if (bit % 4 == 0 && bit != 0) {
+            printf(" ");
+        }
+    }
+}
+
 int main (void){
 
-    int valor, arrBin[64], arrOct[64], arrHex[64], operacao;
+    int valor, arrBin[64], arrOct[64], arrHex[64], arrBCD[64], operacao;
 
     printf("Selecione a conversao que deseja realizar:\n1 - Decimal para binario\n2 - Decimal para octal\n3 - Decimal para Hexa\n4 - Decimal para BCD\n");
     scanf("%d", &operacao);
@@ -106,6 +129,11 @@ int main (void){
 
         decimalParaHexa(valor, &arrHex[64]);
 
+    } else if (operacao == 4){
+        printf("Digite o valor decimal que deseja converter para BCD: ");
+        scanf("%d", &valor);
+        decimalParaBCD(valor, &arrBCD[64]);
     }
+
     return 0;
 }

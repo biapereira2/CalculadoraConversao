@@ -5,6 +5,7 @@
 // Implementação da função de conversão de decimal para hexadecimal (1C) às 16h do dia 23/08/2024
 // Implementação da função de conversão de decimal para BCD (1D) às 15h06 do dia 27/08/2024
 // Implementação da função de conversão de decimal para binário com sinal (2) às 16h21 do dia 27/08/2024
+// Implementação da função de conversão de decimal para float (3) às 20h33 do dia 28/08/2024
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -145,12 +146,34 @@ void decimalParaBinarioComSinal(int val, int bin[64]) {
     }
 }
 
+void decimalParaFloat(float val) {
+    unsigned int bits;
+    *((float*)&bits) = val;
+
+    printf("Valor float: %f\n", val);
+
+    unsigned int sinal = bits / 2147483648U;
+    bits = bits % 2147483648U;
+
+    unsigned int expoente = bits / 8388608U;
+    bits = bits % 8388608U;
+
+    int expoente_com_vies = expoente - 127;
+
+    unsigned int mantissa = bits;
+
+    printf("Sinal: %u\n", sinal);
+    printf("Expoente: %u\n", expoente);
+    printf("Expoente com vies: %d\n", expoente_com_vies);
+    printf("Mantissa: %u\n", mantissa);
+}
 
 int main (void){
 
     int valor, arrBin[64], arrOct[64], arrHex[64], arrBCD[64], arrBinSinal[64], operacao;
+    float valor_float;
 
-    printf("Selecione a conversao que deseja realizar:\n1 - Decimal para binario\n2 - Decimal para octal\n3 - Decimal para Hexa\n4 - Decimal para BCD\n5 - Decimal para binario com 16 bits\n");
+    printf("Selecione a conversao que deseja realizar:\n1 - Decimal para binario\n2 - Decimal para octal\n3 - Decimal para Hexa\n4 - Decimal para BCD\n5 - Decimal para binario com 16 bits\n6 - Real para float com sinal, expoente e fracao\n");
     scanf("%d", &operacao);
 
     if(operacao == 1){
@@ -181,7 +204,15 @@ int main (void){
         printf("Digite o valor decimal que deseja converter para binario com 16 bits: ");
         scanf("%d", &valor);
         decimalParaBinarioComSinal(valor, &arrBinSinal[64]);
-    }
 
+    } else if (operacao == 6){
+        printf("Digite o valor real que deseja converter float e double: ");
+        scanf("%f", &valor_float);
+        decimalParaFloat(valor_float);
+
+    } else {
+        printf("Opcao invalida! Tente novamente.");
+
+    }
     return 0;
 }

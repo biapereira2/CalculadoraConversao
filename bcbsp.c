@@ -7,6 +7,7 @@
 // Implementação da função de conversão de decimal para binário com sinal (2) às 16h21 do dia 27/08/2024
 // Implementação da função de conversão de real para float (3) às 20h33 do dia 28/08/2024
 // Implementação da função de conversão de real para double (3) às 10h54 do dia 30/08/2024
+// Revisão de funções às 11h do dia 30/08/2024
 
 #include <stdio.h>
 #include <stdlib.h>
